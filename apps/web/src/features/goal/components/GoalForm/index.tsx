@@ -26,6 +26,7 @@ export const GoalForm = ({ defaultValue }: Props): React.ReactNode => {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<EditGoalInputType>({
     resolver: zodResolver(editGoalSchema),
@@ -45,6 +46,7 @@ export const GoalForm = ({ defaultValue }: Props): React.ReactNode => {
         await createGoal(data)
       }
       showSuccessToast('保存しました')
+      reset()
     } catch (e) {
       console.error('error', e)
       showErrorToast(errorMessage(e))
