@@ -11,6 +11,7 @@ import {
   useMemo,
 } from 'react'
 
+import { LoadingContentOverlay } from '~/components/Base/Loading'
 import { useToast } from '~/hooks/useToast'
 import {
   createUserOperation,
@@ -22,14 +23,14 @@ import { errorMessage } from '~/utils/errorMessage'
 const nonAuthPaths = ['/login']
 
 const FirebaseAuthContext = createContext<{
-  currentUser: User | null
-  uid: string | null
+  currentUser: User | null | undefined
+  uid: string | null | undefined
   login: () => void
   logout: () => Promise<void>
   isAuthPath: boolean
 }>({
-  currentUser: null,
-  uid: null,
+  currentUser: undefined,
+  uid: undefined,
   login: async () => {},
   logout: async () => {},
   isAuthPath: false,
@@ -40,8 +41,10 @@ const FirebaseAuthProvider = ({
 }: {
   children: ReactNode
 }): ReactNode => {
-  const [currentUser, setCurrentUser] = useState<User | null>(null)
-  const [uid, setUid] = useState<string | null>(null)
+  const [currentUser, setCurrentUser] = useState<User | null | undefined>(
+    undefined,
+  )
+  const [uid, setUid] = useState<string | null | undefined>(undefined)
   const { pathname, push } = useRouter()
   const { showErrorToast } = useToast()
 
@@ -49,14 +52,14 @@ const FirebaseAuthProvider = ({
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      setCurrentUser(null)
-      setUid(null)
-
       // ログイン不要なページではなにもしない
       if (!isAuthPath) {
         if (user) {
           setCurrentUser(user)
           setUid(user.uid)
+        } else {
+          setCurrentUser(null)
+          setUid(null)
         }
         return
       }
@@ -104,6 +107,10 @@ const FirebaseAuthProvider = ({
   const logout = useCallback(async () => {
     await signOut(auth)
   }, [])
+
+  if (currentUser === undefined) {
+    return <LoadingContentOverlay />
+  }
 
   return (
     <FirebaseAuthContext.Provider
