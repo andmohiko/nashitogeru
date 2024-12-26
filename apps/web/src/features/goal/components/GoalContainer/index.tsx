@@ -7,7 +7,7 @@ import { GoalsList } from '~/features/goal/components/GoalsList'
 export const GoalContainer = (): React.ReactNode => {
   const { goals, isLoading } = useGoalContext()
   return (
-    <DefaultLayout>
+    <DefaultLayout isShowFooter>
       {isLoading ? (
         <FlexBox height="initial">
           <LoadingAnimation />
