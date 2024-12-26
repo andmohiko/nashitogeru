@@ -1,0 +1,53 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 送られてきたリクエストのデータ
+    function requestData() {
+      return request.resource.data;
+    }
+
+    // ログイン済かどうか
+    function isSignedIn() {
+      return request.auth.uid != null;
+    }
+
+    // ユーザーIDが一致するかどうか
+    function isUser(userId) {
+      return request.auth.uid == userId;
+    }
+
+    function isValidGoalSchema(requestData) {
+      return requestData.size() == 6
+        && 'createdAt' in requestData && requestData.createdAt is timestamp
+        && 'description' in requestData && requestData.description is string
+        && 'isPublished' in requestData && requestData.isPublished is bool
+        && 'target' in requestData && requestData.target is string
+        && 'updatedAt' in requestData && requestData.updatedAt is timestamp
+        && 'userId' in requestData && requestData.userId is string;
+    }
+
+    function isValidUserSchema(requestData) {
+      return requestData.size() == 6
+        && 'createdAt' in requestData && requestData.createdAt is timestamp
+        && 'displayName' in requestData && requestData.displayName is string
+        && 'email' in requestData && requestData.email is string
+        && 'profileImagePath' in requestData && requestData.profileImagePath is string
+        && 'updatedAt' in requestData && requestData.updatedAt is timestamp
+        && 'username' in requestData && requestData.username is string;
+    }
+
+    match /goals/{goalId} {
+      allow read;
+      allow create: if isValidGoalSchema(requestData());
+      allow update: if isValidGoalSchema(requestData());
+      allow delete;
+    }
+
+    match /users/{userId} {
+      allow read;
+      allow create: if isSignedIn() && isUser(userId) && isValidUserSchema(requestData());
+      allow update: if isSignedIn() && isUser(userId) && isValidUserSchema(requestData());
+    }
+  }
+}
