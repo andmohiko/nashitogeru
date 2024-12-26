@@ -14,6 +14,7 @@ import { TextInput } from '~/components/Inputs/TextInput'
 import { useLoadingContext } from '~/providers/LoadingProvider'
 import { useToast } from '~/hooks/useToast'
 import { errorMessage } from '~/utils/errorMessage'
+import { DeleteButton } from '~/components/Buttons/DeleteButton'
 
 type Props = {
   defaultValue?: Goal
@@ -23,7 +24,7 @@ type Props = {
 export const GoalForm = ({ defaultValue, onClose }: Props): React.ReactNode => {
   const { startLoading, stopLoading } = useLoadingContext()
   const { showErrorToast, showSuccessToast } = useToast()
-  const { createGoal, updateGoal } = useMutateGoal()
+  const { createGoal, updateGoal, deleteGoal } = useMutateGoal()
   const {
     control,
     handleSubmit,
@@ -48,6 +49,23 @@ export const GoalForm = ({ defaultValue, onClose }: Props): React.ReactNode => {
       }
       showSuccessToast('保存しました')
       reset()
+      onClose()
+    } catch (e) {
+      console.error('error', e)
+      showErrorToast(errorMessage(e))
+    } finally {
+      stopLoading()
+    }
+  }
+
+  const onDelete = async () => {
+    startLoading()
+    try {
+      if (!defaultValue) {
+        return
+      }
+      await deleteGoal(defaultValue.goalId)
+      showSuccessToast('削除しました')
       onClose()
     } catch (e) {
       console.error('error', e)
@@ -91,10 +109,13 @@ export const GoalForm = ({ defaultValue, onClose }: Props): React.ReactNode => {
             )}
           />
         </FlexBox>
-        <FlexBox direction="row" justify="flex-end" gap={8}>
-          <BasicButton type="submit" loading={isSubmitting} width="100px">
+        <FlexBox gap={32}>
+          <BasicButton type="submit" loading={isSubmitting} fullWidth>
             保存
           </BasicButton>
+          <DeleteButton onClick={onDelete} disabled={!defaultValue} fullWidth>
+            削除
+          </DeleteButton>
         </FlexBox>
       </form>
     </div>

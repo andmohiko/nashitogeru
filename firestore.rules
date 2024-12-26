@@ -38,10 +38,10 @@ service cloud.firestore {
     }
 
     match /goals/{goalId} {
-      allow read;
+      allow read: if isSignedIn();
       allow create: if isValidGoalSchema(requestData());
       allow update: if isValidGoalSchema(requestData());
-      allow delete;
+      allow delete: if isSignedIn() && isUser(requestData().userId);
     }
 
     match /users/{userId} {

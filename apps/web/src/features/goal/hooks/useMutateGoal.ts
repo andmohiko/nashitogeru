@@ -3,6 +3,7 @@ import type { GoalId } from '@nashitogeru/common'
 import type { EditGoalInputType } from '~/features/goal/types'
 import {
   createGoalOperation,
+  deleteGoalOperation,
   updateGoalOperation,
 } from '~/infrastructures/firestore/GoalOperations'
 import { serverTimestamp } from '~/lib/firebase'
@@ -11,6 +12,7 @@ import { useFirebaseAuthContext } from '~/providers/FirebaseAuthProvider'
 export const useMutateGoal = (): {
   createGoal: (data: EditGoalInputType) => Promise<void>
   updateGoal: (goalId: GoalId, data: EditGoalInputType) => Promise<void>
+  deleteGoal: (goalId: GoalId) => Promise<void>
 } => {
   const { uid } = useFirebaseAuthContext()
 
@@ -41,8 +43,17 @@ export const useMutateGoal = (): {
     })
   }
 
+  const deleteGoal = async (goalId: GoalId) => {
+    if (!uid) {
+      throw new Error('再ログインしてください')
+    }
+
+    await deleteGoalOperation(goalId)
+  }
+
   return {
     createGoal,
     updateGoal,
+    deleteGoal,
   }
 }
