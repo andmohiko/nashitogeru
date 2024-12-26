@@ -17,9 +17,10 @@ import { errorMessage } from '~/utils/errorMessage'
 
 type Props = {
   defaultValue?: Goal
+  onClose: () => void
 }
 
-export const GoalForm = ({ defaultValue }: Props): React.ReactNode => {
+export const GoalForm = ({ defaultValue, onClose }: Props): React.ReactNode => {
   const { startLoading, stopLoading } = useLoadingContext()
   const { showErrorToast, showSuccessToast } = useToast()
   const { createGoal, updateGoal } = useMutateGoal()
@@ -47,6 +48,7 @@ export const GoalForm = ({ defaultValue }: Props): React.ReactNode => {
       }
       showSuccessToast('保存しました')
       reset()
+      onClose()
     } catch (e) {
       console.error('error', e)
       showErrorToast(errorMessage(e))
