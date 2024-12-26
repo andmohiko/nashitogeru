@@ -2,6 +2,7 @@ import { type ReactNode } from 'react'
 import { AppShell } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 
+import { BottomFooter } from '~/components/Navigations/BottomFooter'
 import { LoadingContentOverlay } from '~/components/Base/Loading'
 import { FlexBox } from '~/components/Base/FlexBox'
 import { FixedHeader } from '~/components/Navigations/FixedHeader'
@@ -11,11 +12,16 @@ import { useGoalContext } from '~/providers/GoalProvider'
 
 type Props = {
   children: ReactNode
+  isShowFooter?: boolean
 }
 
 const headerHeight = 60
+const footerHeight = 40
 
-export const DefaultLayout = ({ children }: Props): ReactNode => {
+export const DefaultLayout = ({
+  children,
+  isShowFooter = false,
+}: Props): ReactNode => {
   const { isLoading } = useLoadingContext()
   const [isOpen, { toggle }] = useDisclosure(false)
   const { goals, isLoading: isLoadingGoals } = useGoalContext()
@@ -37,7 +43,9 @@ export const DefaultLayout = ({ children }: Props): ReactNode => {
       <AppShell.Main
         bg="cyan.0"
         style={{
-          height: `calc(100vh - ${headerHeight}px)`,
+          height: `calc(100vh - ${headerHeight}px - ${
+            isShowFooter ? footerHeight : 0
+          }px)`,
           overflow: 'scroll',
         }}
       >
@@ -51,6 +59,7 @@ export const DefaultLayout = ({ children }: Props): ReactNode => {
           {(isLoading || isLoadingGoals) && <LoadingContentOverlay />}
           {children}
         </FlexBox>
+        {isShowFooter && <BottomFooter />}
       </AppShell.Main>
     </AppShell>
   )

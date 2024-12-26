@@ -1,8 +1,12 @@
 import { AppShell, Burger } from '@mantine/core'
+import { useRouter } from 'next/router'
+import { IoSettingsOutline } from 'react-icons/io5'
 
 import styles from './style.module.css'
 
 import { FlexBox } from '~/components/Base/FlexBox'
+import { IconButton } from '~/components/Buttons/IconButton'
+import { useFirebaseAuthContext } from '~/providers/FirebaseAuthProvider'
 
 type Props = {
   isOpenMenu?: boolean
@@ -13,6 +17,8 @@ export const FixedHeader = ({
   isOpenMenu,
   toggleMenu,
 }: Props): React.ReactNode => {
+  const { push } = useRouter()
+  const { isAuthPath } = useFirebaseAuthContext()
   return (
     <AppShell.Header px={16}>
       <FlexBox direction="row" justify="space-between">
@@ -27,6 +33,13 @@ export const FixedHeader = ({
           )}
           <h1 className={styles.title}>成し遂げる!!</h1>
         </FlexBox>
+        {isAuthPath && (
+          <IconButton
+            icon={<IoSettingsOutline size={24} />}
+            onClick={() => push('/settings')}
+            importance="tertiary"
+          />
+        )}
       </FlexBox>
     </AppShell.Header>
   )

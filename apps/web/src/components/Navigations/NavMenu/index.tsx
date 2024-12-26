@@ -5,6 +5,8 @@ import type { Goal } from '@nashitogeru/common'
 import styles from './style.module.css'
 
 import { MenuItem, type MenuItemProps } from '~/components/Navigations/MenuItem'
+import { useFirebaseAuthContext } from '~/providers/FirebaseAuthProvider'
+import { BaseText } from '~/components/Typography/BaseText'
 
 type Props = {
   goals: Array<Goal>
@@ -12,6 +14,7 @@ type Props = {
 
 export const NavMenu = ({ goals }: Props): React.ReactElement => {
   const { pathname } = useRouter()
+  const { isAuthPath } = useFirebaseAuthContext()
 
   const menuItems: Array<MenuItemProps> = goals.map((goal) => ({
     href: `/goals/${goal.goalId}`,
@@ -22,13 +25,17 @@ export const NavMenu = ({ goals }: Props): React.ReactElement => {
   return (
     <AppShell.Navbar p="sm" className={styles.navBar}>
       <div className={styles.menuItems}>
-        {menuItems.map((item) => (
-          <MenuItem
-            key={item.href}
-            {...item}
-            isCurrent={pathname.startsWith(item.href)}
-          />
-        ))}
+        {isAuthPath ? (
+          menuItems.map((item) => (
+            <MenuItem
+              key={item.href}
+              {...item}
+              isCurrent={pathname.startsWith(item.href)}
+            />
+          ))
+        ) : (
+          <BaseText>ログインしてね</BaseText>
+        )}
       </div>
     </AppShell.Navbar>
   )

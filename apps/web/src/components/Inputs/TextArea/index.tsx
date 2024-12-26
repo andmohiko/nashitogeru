@@ -3,7 +3,7 @@ import { Textarea as MantineTextArea } from '@mantine/core'
 type Props = {
   label: React.ReactNode
   value?: string
-  onChange: () => void
+  onChange?: () => void
   onBlur?: () => void
   error?: React.ReactNode
   minRows?: number

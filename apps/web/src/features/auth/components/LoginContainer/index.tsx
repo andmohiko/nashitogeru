@@ -7,7 +7,7 @@ import { useFirebaseAuthContext } from '~/providers/FirebaseAuthProvider'
 export const LoginContainer = (): React.ReactNode => {
   const { login } = useFirebaseAuthContext()
   return (
-    <DefaultLayout>
+    <DefaultLayout isShowFooter>
       <FlexBox gap={64} justify="flex-start" pt={120}>
         <TitleText>ログイン</TitleText>
         <FlexBox gap={32} height="initial">

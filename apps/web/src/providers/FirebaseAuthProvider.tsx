@@ -8,6 +8,7 @@ import {
   useContext,
   useCallback,
   useEffect,
+  useMemo,
 } from 'react'
 
 import { useToast } from '~/hooks/useToast'
@@ -18,16 +19,20 @@ import {
 import { auth, serverTimestamp } from '~/lib/firebase'
 import { errorMessage } from '~/utils/errorMessage'
 
+const nonAuthPaths = ['/login']
+
 const FirebaseAuthContext = createContext<{
   currentUser: User | null
   uid: string | null
   login: () => void
   logout: () => Promise<void>
+  isAuthPath: boolean
 }>({
   currentUser: null,
   uid: null,
   login: async () => {},
   logout: async () => {},
+  isAuthPath: false,
 })
 
 const FirebaseAuthProvider = ({
@@ -37,21 +42,35 @@ const FirebaseAuthProvider = ({
 }): ReactNode => {
   const [currentUser, setCurrentUser] = useState<User | null>(null)
   const [uid, setUid] = useState<string | null>(null)
-  const { push } = useRouter()
+  const { pathname, push } = useRouter()
   const { showErrorToast } = useToast()
+
+  const isAuthPath = useMemo(() => !nonAuthPaths.includes(pathname), [pathname])
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        setCurrentUser(user)
-        setUid(user.uid)
-      } else {
-        setCurrentUser(null)
-        setUid(null)
+      setCurrentUser(null)
+      setUid(null)
+
+      // ログイン不要なページではなにもしない
+      if (!isAuthPath) {
+        if (user) {
+          setCurrentUser(user)
+          setUid(user.uid)
+        }
+        return
       }
+
+      if (!user) {
+        push('/login')
+        return
+      }
+
+      setCurrentUser(user)
+      setUid(user.uid)
     })
     return () => unsubscribe()
-  }, [])
+  }, [isAuthPath, pathname, push])
 
   const login = useCallback(async () => {
     const googleProvider = new GoogleAuthProvider()
@@ -87,7 +106,9 @@ const FirebaseAuthProvider = ({
   }, [])
 
   return (
-    <FirebaseAuthContext.Provider value={{ currentUser, uid, login, logout }}>
+    <FirebaseAuthContext.Provider
+      value={{ currentUser, uid, login, logout, isAuthPath }}
+    >
       {children}
     </FirebaseAuthContext.Provider>
   )
