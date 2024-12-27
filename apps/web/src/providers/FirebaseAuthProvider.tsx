@@ -11,7 +11,7 @@ import {
   useMemo,
 } from 'react'
 
-import { LoadingContentOverlay } from '~/components/Base/Loading'
+import { LoadingCover } from '~/components/Base/Loading'
 import { useToast } from '~/hooks/useToast'
 import {
   createUserOperation,
@@ -108,14 +108,11 @@ const FirebaseAuthProvider = ({
     await signOut(auth)
   }, [])
 
-  if (currentUser === undefined) {
-    return <LoadingContentOverlay />
-  }
-
   return (
     <FirebaseAuthContext.Provider
       value={{ currentUser, uid, login, logout, isAuthPath }}
     >
+      {currentUser === undefined ? <LoadingCover /> : null}
       {children}
     </FirebaseAuthContext.Provider>
   )

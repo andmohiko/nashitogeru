@@ -45,3 +45,19 @@ export const LoadingOverlay = (): React.ReactElement => (
     <LoadingAnimation />
   </FlexBox>
 )
+
+export const LoadingCover = (): React.ReactElement => (
+  <FlexBox
+    height="100vh"
+    width="100vw"
+    style={{
+      backdropFilter: 'blur(20px)',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      zIndex: 1000,
+    }}
+  >
+    <LoadingAnimation />
+  </FlexBox>
+)
