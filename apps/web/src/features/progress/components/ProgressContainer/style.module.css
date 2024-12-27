@@ -1,0 +1,6 @@
+.addButton {
+  position: fixed;
+  bottom: 48px;
+  right: 80px;
+  transform: translateX(50%);
+}

@@ -1,9 +1,9 @@
 import type { NextPage } from 'next'
 
-import { GoalDetailContainer } from '~/features/progress/components/GoalDetailContainer'
+import { ProgressContainer } from '~/features/progress/components/ProgressContainer'
 
 const IndexPage: NextPage = () => {
-  return <GoalDetailContainer />
+  return <ProgressContainer />
 }
 
 export default IndexPage

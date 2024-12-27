@@ -1,4 +1,4 @@
-import type { Goal } from '@nashitogeru/common'
+import type { Goal, Progress } from '@nashitogeru/common'
 
 import { BaseBottomSheet } from '~/components/Modals/BaseBottomSheet'
 import { ProgressForm } from '~/features/progress/components/ProgressForm'
@@ -7,12 +7,14 @@ type Props = {
   isOpen: boolean
   onClose: () => void
   goal: Goal
+  progress?: Progress
 }
 
 export const EditProgressModal = ({
   isOpen,
   onClose,
   goal,
+  progress,
 }: Props): React.ReactNode => {
   return (
     <BaseBottomSheet
@@ -20,7 +22,7 @@ export const EditProgressModal = ({
       isOpen={isOpen}
       onClose={onClose}
     >
-      <ProgressForm goal={goal} onClose={onClose} />
+      <ProgressForm goal={goal} onClose={onClose} defaultValue={progress} />
     </BaseBottomSheet>
   )
 }

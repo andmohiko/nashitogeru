@@ -27,6 +27,15 @@ service cloud.firestore {
         && 'userId' in requestData && requestData.userId is string;
     }
 
+    function isValidProgressSchema(requestData) {
+      return requestData.size() == 5
+        && 'createdAt' in requestData && requestData.createdAt is timestamp
+        && 'imagePaths' in requestData && requestData.imagePaths is list
+        && 'note' in requestData && requestData.note is string
+        && 'progressRate' in requestData && requestData.progressRate is number
+        && 'updatedAt' in requestData && requestData.updatedAt is timestamp;
+    }
+
     function isValidUserSchema(requestData) {
       return requestData.size() == 6
         && 'createdAt' in requestData && requestData.createdAt is timestamp
@@ -42,6 +51,13 @@ service cloud.firestore {
       allow create: if isValidGoalSchema(requestData());
       allow update: if isValidGoalSchema(requestData());
       allow delete: if isSignedIn() && isUser(requestData().userId);
+
+      match /progresses/{progressId} {
+        allow read: if isSignedIn();
+        allow create: if isValidProgressSchema(requestData());
+        allow update: if isValidProgressSchema(requestData());
+        allow delete: if isSignedIn() && isUser(requestData().userId);
+      }
     }
 
     match /users/{userId} {

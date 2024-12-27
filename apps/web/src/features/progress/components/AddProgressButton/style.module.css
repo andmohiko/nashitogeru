@@ -1,0 +1,7 @@
+.addButton {
+  background-color: var(--color-primary);
+  border: none;
+  border-radius: 50%;
+  color: var(--color-base-white);
+  box-shadow: 0px 5px 15px 5px #ddd;
+}
