@@ -7,6 +7,7 @@ export const progressesCollection = 'progresses' as const
 export type Progress = {
   progressId: ProgressId
   createdAt: Date
+  date: Date
   imagePaths: Array<string>
   note: string
   progressRate: number
@@ -22,6 +23,7 @@ export type CreateProgressDto = Omit<
 }
 
 export type UpdateProgressDto = {
+  date?: Progress['date']
   imagePaths?: Progress['imagePaths']
   note?: Progress['note']
   progressRate?: Progress['progressRate']
