@@ -1,3 +1,4 @@
+import { DatePickerInput } from '@mantine/dates'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { Goal, Progress } from '@nashitogeru/common'
@@ -14,6 +15,8 @@ import { useToast } from '~/hooks/useToast'
 import { errorMessage } from '~/utils/errorMessage'
 import { DeleteButton } from '~/components/Buttons/DeleteButton'
 import { useMutateProgress } from '~/features/progress/hooks/useMutateProgress'
+import { FileInputWithCropper } from '~/components/Inputs/FileInputWithCropper'
+import { useFirebaseAuthContext } from '~/providers/FirebaseAuthProvider'
 
 type Props = {
   goal: Goal
@@ -26,6 +29,7 @@ export const ProgressForm = ({
   defaultValue,
   onClose,
 }: Props): React.ReactNode => {
+  const { uid } = useFirebaseAuthContext()
   const { startLoading, stopLoading } = useLoadingContext()
   const { showErrorToast, showSuccessToast } = useToast()
   const { createProgress, updateProgress } = useMutateProgress()
@@ -38,6 +42,8 @@ export const ProgressForm = ({
     resolver: zodResolver(editProgressSchema),
     mode: 'all',
     defaultValues: {
+      date: new Date(),
+      imagePath: defaultValue?.imagePaths[0] ?? undefined,
       note: defaultValue?.note || '',
     },
   })
@@ -82,6 +88,22 @@ export const ProgressForm = ({
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
         <FlexBox gap={16}>
           <Controller
+            name="date"
+            control={control}
+            render={({ field }) => (
+              <DatePickerInput
+                label="日付"
+                value={field.value}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                error={errors.date?.message}
+                locale="ja"
+                valueFormat="YYYY年MM月DD日"
+                w="100%"
+              />
+            )}
+          />
+          <Controller
             name="note"
             control={control}
             render={({ field }) => (
@@ -90,9 +112,22 @@ export const ProgressForm = ({
                 value={field.value}
                 onChange={field.onChange}
                 onBlur={field.onBlur}
-                minRows={3}
-                maxRows={6}
+                minRows={4}
+                maxRows={8}
                 error={errors.note?.message}
+              />
+            )}
+          />
+          <Controller
+            name="imagePath"
+            control={control}
+            render={({ field }) => (
+              <FileInputWithCropper
+                label="画像"
+                value={field.value}
+                onChange={field.onChange}
+                storagePath={`images/users/${uid}/goals/${goal.goalId}/progresses`}
+                error={errors.imagePath?.message}
               />
             )}
           />

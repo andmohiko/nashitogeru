@@ -8,6 +8,7 @@ type Props = {
   error?: React.ReactNode
   minRows?: number
   maxRows?: number
+  size?: 'sm' | 'md' | 'lg'
 }
 
 export const TextArea = ({
@@ -18,6 +19,7 @@ export const TextArea = ({
   error,
   minRows = 3,
   maxRows = 6,
+  size,
 }: Props): React.ReactNode => {
   return (
     <MantineTextArea
@@ -26,7 +28,7 @@ export const TextArea = ({
       onChange={onChange}
       onBlur={onBlur}
       error={error}
-      size="lg"
+      size={size}
       minRows={minRows}
       maxRows={maxRows}
       autosize

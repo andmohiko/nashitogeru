@@ -3,7 +3,7 @@
   border: 1px solid var(--color-gray300);
   background-color: var(--color-base-white);
   border-radius: 10px;
-  padding: 8px 4px 8px 16px;
+  padding: 8px 16px 8px 16px;
 
   display: flex;
   flex-direction: column;
@@ -13,5 +13,11 @@
 
   &:hover {
     background-color: var(--color-gray100);
+  }
+
+  .image {
+    height: 150px;
+    width: 100%;
+    object-fit: cover;
   }
 }

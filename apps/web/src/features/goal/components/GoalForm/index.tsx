@@ -105,6 +105,7 @@ export const GoalForm = ({ defaultValue, onClose }: Props): React.ReactNode => {
                 minRows={3}
                 maxRows={6}
                 error={errors.description?.message}
+                size="lg"
               />
             )}
           />
