@@ -1,5 +1,5 @@
-import { useRouter } from 'next/router'
 import { useDisclosure } from '@mantine/hooks'
+import type { GoalId } from '@nashitogeru/common'
 
 import styles from './style.module.css'
 
@@ -13,10 +13,12 @@ import { LoadingAnimation } from '~/components/Base/Loading'
 import { useProgresses } from '~/features/progress/hooks/useProgresses'
 import { ProgressesList } from '~/features/progress/components/ProgressesList'
 
-export const ProgressContainer = (): React.ReactNode => {
-  const { query } = useRouter()
+type Props = {
+  goalId: GoalId
+}
+
+export const ProgressContainer = ({ goalId }: Props): React.ReactNode => {
   const [isOpen, handlers] = useDisclosure()
-  const goalId = query.id as string
   const { isLoading: isLoadingGoals, findGoalById } = useGoalContext()
   const goal = findGoalById(goalId)
   const [progresses, isLoadingProgresses] = useProgresses(goalId)
@@ -28,8 +30,10 @@ export const ProgressContainer = (): React.ReactNode => {
         </FlexBox>
       ) : (
         <FlexBox height="initial" gap={24}>
-          <GoalHeader goal={goal} />
-          <ProgressesList goal={goal} progresses={progresses} />
+          <div className={styles.container}>
+            <GoalHeader goal={goal} />
+            <ProgressesList goal={goal} progresses={progresses} />
+          </div>
         </FlexBox>
       )}
 
