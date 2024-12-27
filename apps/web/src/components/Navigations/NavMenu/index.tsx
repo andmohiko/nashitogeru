@@ -10,9 +10,10 @@ import { BaseText } from '~/components/Typography/BaseText'
 
 type Props = {
   goals: Array<Goal>
+  onClose?: () => void
 }
 
-export const NavMenu = ({ goals }: Props): React.ReactElement => {
+export const NavMenu = ({ goals, onClose }: Props): React.ReactElement => {
   const { pathname } = useRouter()
   const { isAuthPath } = useFirebaseAuthContext()
 
@@ -31,6 +32,7 @@ export const NavMenu = ({ goals }: Props): React.ReactElement => {
               key={item.href}
               {...item}
               isCurrent={pathname.startsWith(item.href)}
+              onClick={onClose}
             />
           ))
         ) : (
