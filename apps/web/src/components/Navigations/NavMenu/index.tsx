@@ -1,6 +1,7 @@
 import { AppShell } from '@mantine/core'
 import { useRouter } from 'next/router'
 import type { Goal } from '@nashitogeru/common'
+import { IoMdAddCircleOutline } from 'react-icons/io'
 
 import styles from './style.module.css'
 
@@ -14,26 +15,27 @@ type Props = {
 }
 
 export const NavMenu = ({ goals, onClose }: Props): React.ReactElement => {
-  const { pathname } = useRouter()
+  const { pathname, query } = useRouter()
   const { isAuthPath } = useFirebaseAuthContext()
 
   const menuItems: Array<MenuItemProps> = goals.map((goal) => ({
     href: `/goals/${goal.goalId}`,
     label: goal.target,
-    isCurrent: pathname.includes(goal.goalId),
+    isCurrent: query.id === goal.goalId,
   }))
+  menuItems.unshift({
+    href: '/',
+    label: '成し遂げを追加',
+    icon: <IoMdAddCircleOutline size={18} />,
+    isCurrent: pathname === '/',
+  })
 
   return (
     <AppShell.Navbar p="sm" className={styles.navBar}>
       <div className={styles.menuItems}>
         {isAuthPath ? (
           menuItems.map((item) => (
-            <MenuItem
-              key={item.href}
-              {...item}
-              isCurrent={pathname.startsWith(item.href)}
-              onClick={onClose}
-            />
+            <MenuItem key={item.href} {...item} onClick={onClose} />
           ))
         ) : (
           <BaseText>ログインしてね</BaseText>

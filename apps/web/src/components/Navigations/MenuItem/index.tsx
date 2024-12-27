@@ -5,6 +5,7 @@ import styles from './style.module.css'
 export type MenuItemProps = {
   label: string
   href: string
+  icon?: React.ReactNode
   isCurrent?: boolean
   onClick?: () => void
 }
@@ -12,6 +13,7 @@ export type MenuItemProps = {
 export const MenuItem = ({
   label,
   href,
+  icon,
   isCurrent = false,
   onClick,
 }: MenuItemProps) => {
@@ -25,6 +27,7 @@ export const MenuItem = ({
       }}
       onClick={onClick}
     >
+      {icon}
       {label}
     </Link>
   )

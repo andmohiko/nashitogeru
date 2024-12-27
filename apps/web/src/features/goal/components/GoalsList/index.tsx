@@ -1,6 +1,7 @@
 import { useDisclosure } from '@mantine/hooks'
 import type { Goal } from '@nashitogeru/common'
 import { useState } from 'react'
+import { IoMdAddCircleOutline } from 'react-icons/io'
 
 import { FlexBox } from '~/components/Base/FlexBox'
 import { GoalCard } from '~/features/goal/components/GoalCard'
@@ -32,7 +33,12 @@ export const GoalsList = ({ goals }: Props): React.ReactNode => {
         <GoalEmpty onAdd={onAddGoal} />
       ) : (
         <FlexBox gap={16}>
-          <BasicButton onClick={onAddGoal}>成し遂げを追加</BasicButton>
+          <BasicButton
+            onClick={onAddGoal}
+            leftSection={<IoMdAddCircleOutline size={18} />}
+          >
+            成し遂げを追加
+          </BasicButton>
           {goals.map((goal) => (
             <GoalCard
               key={goal.goalId}

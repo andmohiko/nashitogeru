@@ -23,7 +23,7 @@ export const DefaultLayout = ({
   isShowFooter = false,
 }: Props): ReactNode => {
   const { isLoading } = useLoadingContext()
-  const [isOpen, { toggle }] = useDisclosure(false)
+  const [isOpen, { close, toggle }] = useDisclosure(false)
   const { goals, isLoading: isLoadingGoals } = useGoalContext()
 
   return (
@@ -39,7 +39,7 @@ export const DefaultLayout = ({
       padding="md"
     >
       <FixedHeader isOpenMenu={isOpen} toggleMenu={toggle} />
-      <NavMenu goals={goals} />
+      <NavMenu goals={goals} onClose={close} />
       <AppShell.Main
         bg="cyan.0"
         style={{
