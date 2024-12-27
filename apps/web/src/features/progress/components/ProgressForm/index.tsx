@@ -33,7 +33,7 @@ export const ProgressForm = ({
   const { uid } = useFirebaseAuthContext()
   const { startLoading, stopLoading } = useLoadingContext()
   const { showErrorToast, showSuccessToast } = useToast()
-  const { createProgress, updateProgress } = useMutateProgress()
+  const { createProgress, updateProgress, deleteProgress } = useMutateProgress()
   const {
     control,
     handleSubmit,
@@ -75,6 +75,7 @@ export const ProgressForm = ({
       if (!defaultValue) {
         return
       }
+      await deleteProgress(goal.goalId, defaultValue.progressId)
       showSuccessToast('削除しました')
       onClose()
     } catch (e) {

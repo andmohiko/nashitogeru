@@ -9,6 +9,7 @@ import type { Unsubscribe } from 'firebase/firestore'
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   onSnapshot,
   orderBy,
@@ -63,12 +64,21 @@ export const createProgressOperation = async (
 }
 
 export const updateProgressOperation = async (
-  goalId: string,
+  goalId: Goal['goalId'],
   progressId: Progress['progressId'],
   dto: UpdateProgressDto,
 ): Promise<void> => {
   await updateDoc(
     doc(db, goalsCollection, goalId, progressesCollection, progressId),
     dto,
+  )
+}
+
+export const deleteProgressOperation = async (
+  goalId: Goal['goalId'],
+  progressId: Progress['progressId'],
+): Promise<void> => {
+  await deleteDoc(
+    doc(db, goalsCollection, goalId, progressesCollection, progressId),
   )
 }

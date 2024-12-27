@@ -2,6 +2,7 @@ import type { GoalId, ProgressId } from '@nashitogeru/common'
 
 import {
   createProgressOperation,
+  deleteProgressOperation,
   updateProgressOperation,
 } from '~/infrastructures/firestore/ProgressOperations'
 import { serverTimestamp } from '~/lib/firebase'
@@ -15,6 +16,7 @@ export const useMutateProgress = (): {
     progressId: ProgressId,
     data: EditProgressInputType,
   ) => void
+  deleteProgress: (goalId: GoalId, progressId: ProgressId) => void
 } => {
   const { uid } = useFirebaseAuthContext()
 
@@ -54,8 +56,17 @@ export const useMutateProgress = (): {
     })
   }
 
+  const deleteProgress = async (goalId: GoalId, progressId: ProgressId) => {
+    if (!uid) {
+      throw new Error('再ログインしてください')
+    }
+
+    await deleteProgressOperation(goalId, progressId)
+  }
+
   return {
     createProgress,
     updateProgress,
+    deleteProgress,
   }
 }
