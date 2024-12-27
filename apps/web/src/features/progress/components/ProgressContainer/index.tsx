@@ -21,7 +21,7 @@ export const ProgressContainer = (): React.ReactNode => {
   const goal = findGoalById(goalId)
   const [progresses, isLoadingProgresses] = useProgresses(goalId)
   return (
-    <DefaultLayout isShowFooter>
+    <DefaultLayout>
       {isLoadingGoals || isLoadingProgresses || !goal ? (
         <FlexBox height="initial">
           <LoadingAnimation />

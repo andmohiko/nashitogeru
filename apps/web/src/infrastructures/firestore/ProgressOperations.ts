@@ -21,6 +21,7 @@ import { convertDate } from '~/utils/convertDate'
 
 export const dateColumns = [
   'createdAt',
+  'date',
   'updatedAt',
 ] as const satisfies Array<string>
 
@@ -32,7 +33,7 @@ export const subscribeProgressOperation = (
   const unsubscribe = onSnapshot(
     query(
       collection(db, goalsCollection, goalId, progressesCollection),
-      orderBy('createdAt', 'desc'),
+      orderBy('date', 'desc'),
     ),
     (snapshot) => {
       setIdLoading(true)

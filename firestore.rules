@@ -28,8 +28,9 @@ service cloud.firestore {
     }
 
     function isValidProgressSchema(requestData) {
-      return requestData.size() == 5
+      return requestData.size() == 6
         && 'createdAt' in requestData && requestData.createdAt is timestamp
+        && 'date' in requestData && requestData.date is timestamp
         && 'imagePaths' in requestData && requestData.imagePaths is list
         && 'note' in requestData && requestData.note is string
         && 'progressRate' in requestData && requestData.progressRate is number

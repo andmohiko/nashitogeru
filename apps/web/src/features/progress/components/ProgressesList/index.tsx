@@ -38,12 +38,12 @@ export const ProgressesList = ({
       {progresses.length === 0 ? (
         <ProgressEmpty onAdd={onAddProgress} />
       ) : (
-        <FlexBox gap={16}>
+        <FlexBox gap={16} mb={140}>
           <Timeline lineWidth={2} w="100%">
             {progresses.map((progress) => (
               <Timeline.Item
                 key={progress.progressId}
-                title={dayjs(progress.createdAt).format('YYYY/MM/DD')}
+                title={dayjs(progress.date).format('YYYY/MM/DD')}
               >
                 <ProgressCard
                   progress={progress}
