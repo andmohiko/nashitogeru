@@ -1,6 +1,7 @@
 import { AppShell, Burger } from '@mantine/core'
 import { useRouter } from 'next/router'
 import { IoSettingsOutline } from 'react-icons/io5'
+import Link from 'next/link'
 
 import styles from './style.module.css'
 
@@ -31,7 +32,9 @@ export const FixedHeader = ({
               size="md"
             />
           )}
-          <h1 className={styles.title}>成し遂げる!!</h1>
+          <Link href="/">
+            <h1 className={styles.title}>成し遂げる!!</h1>
+          </Link>
         </FlexBox>
         {isAuthPath && (
           <IconButton
