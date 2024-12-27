@@ -7,7 +7,7 @@ type Props = {
   icon: React.ReactNode
   title: string
   description: string
-  action: React.ReactNode
+  action?: React.ReactNode
 }
 
 export const EmptyState = ({ icon, title, description, action }: Props) => {

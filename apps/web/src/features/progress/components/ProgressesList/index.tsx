@@ -28,15 +28,10 @@ export const ProgressesList = ({
     handlers.open()
   }
 
-  const onAddProgress = () => {
-    setSelectedProgress(undefined)
-    handlers.open()
-  }
-
   return (
     <>
       {progresses.length === 0 ? (
-        <ProgressEmpty onAdd={onAddProgress} />
+        <ProgressEmpty />
       ) : (
         <FlexBox gap={16} mb={140}>
           <Timeline lineWidth={2} w="100%">
