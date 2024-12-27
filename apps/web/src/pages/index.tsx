@@ -5,7 +5,7 @@ import { GoalContainer } from '~/features/goal/components/GoalContainer'
 
 const IndexPage: NextPage = () => {
   const title = '成し遂げる!!'
-  const description = '今年こそ成し遂げよう'
+  const description = '今年成し遂げることを書こう'
   const appUrl = process.env.NEXT_PUBLIC_APP_URL
 
   return (
