@@ -12,6 +12,7 @@ import {
   deleteDoc,
   doc,
   onSnapshot,
+  orderBy,
   query,
   updateDoc,
   where,
@@ -31,7 +32,11 @@ export const subscribeGoalsByUserIdOperation = (
   setIsLoading: (isLoading: boolean) => void,
 ): Unsubscribe => {
   const unsubscribe = onSnapshot(
-    query(collection(db, goalsCollection), where('userId', '==', userId)),
+    query(
+      collection(db, goalsCollection),
+      where('userId', '==', userId),
+      orderBy('updatedAt', 'desc'),
+    ),
     (snapshot) => {
       setIsLoading(true)
       const goals: Array<Goal> = []
