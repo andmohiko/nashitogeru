@@ -17,6 +17,7 @@ import { DeleteButton } from '~/components/Buttons/DeleteButton'
 import { useMutateProgress } from '~/features/progress/hooks/useMutateProgress'
 import { FileInputWithCropper } from '~/components/Inputs/FileInputWithCropper'
 import { useFirebaseAuthContext } from '~/providers/FirebaseAuthProvider'
+import { NumberInput } from '~/components/Inputs/NumberInput'
 
 type Props = {
   goal: Goal
@@ -42,9 +43,10 @@ export const ProgressForm = ({
     resolver: zodResolver(editProgressSchema),
     mode: 'all',
     defaultValues: {
-      date: new Date(),
+      date: defaultValue?.date || new Date(),
       imagePath: defaultValue?.imagePaths[0] ?? undefined,
       note: defaultValue?.note || '',
+      progressRate: defaultValue?.progressRate || 0,
     },
   })
 
@@ -128,6 +130,19 @@ export const ProgressForm = ({
                 onChange={field.onChange}
                 storagePath={`images/users/${uid}/goals/${goal.goalId}/progresses`}
                 error={errors.imagePath?.message}
+              />
+            )}
+          />
+          <Controller
+            name="progressRate"
+            control={control}
+            render={({ field }) => (
+              <NumberInput
+                label="達成率"
+                value={field.value}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                error={errors.progressRate?.message}
               />
             )}
           />

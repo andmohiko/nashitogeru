@@ -31,7 +31,7 @@ export const useMutateProgress = (): {
       date: data.date,
       imagePaths: [data.imagePath],
       note: data.note ?? '',
-      progressRate: 0,
+      progressRate: data.progressRate,
       updatedAt: serverTimestamp,
     })
   }
@@ -49,7 +49,7 @@ export const useMutateProgress = (): {
       date: data.date,
       imagePaths: [data.imagePath],
       note: data.note ?? '',
-      progressRate: 0,
+      progressRate: data.progressRate,
       updatedAt: serverTimestamp,
     })
   }
