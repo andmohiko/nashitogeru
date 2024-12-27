@@ -10,8 +10,5 @@ export const PageHead = (): React.ReactElement => (
     />
     <link rel="canonical" href="https://nashitogeru.andmohiko.dev/" />
     <link rel="icon" href="/favicon.ico" />
-
-    {/* OGP */}
-    <meta name="twitter:card" content="summary_large_image" />
   </Head>
 )

@@ -1,5 +1,10 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const withPWA = require('next-pwa')({
+  dest: 'public',
+  disable: process.env.NEXT_PUBLIC_ENV === 'localhost',
+})
+
+const nextConfig = withPWA({
   reactStrictMode: true,
   swcMinify: true,
   transpilePackages: ['@web/common'],
@@ -12,6 +17,6 @@ const nextConfig = {
       },
     ],
   },
-}
+})
 
 module.exports = nextConfig

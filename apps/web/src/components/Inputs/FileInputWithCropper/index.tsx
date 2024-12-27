@@ -119,7 +119,6 @@ export const FileInputWithCropper = ({
               <ReactCrop
                 crop={crop}
                 onChange={(c) => onChangeCrop(c)}
-                aspect={ratioWidth / ratioHeight}
                 keepSelection={true}
               >
                 <img
