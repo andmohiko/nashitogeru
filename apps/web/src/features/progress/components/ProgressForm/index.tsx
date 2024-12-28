@@ -87,7 +87,7 @@ export const ProgressForm = ({
   }
 
   return (
-    <div className={styles.goalInput}>
+    <div className={styles.progressForm}>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
         <FlexBox gap={16}>
           <Controller
