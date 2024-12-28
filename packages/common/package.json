@@ -23,6 +23,7 @@
     "pnpm": ">=6.0.0"
   },
   "dependencies": {
+    "dayjs": "^1.11.13",
     "firebase": "^11.0.1"
   }
 }
