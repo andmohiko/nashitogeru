@@ -2,6 +2,7 @@ import { RiEditCircleLine } from 'react-icons/ri'
 import type { Progress } from '@nashitogeru/common'
 import { Progress as ProgressBar } from '@mantine/core'
 import Image from 'next/image'
+import { useDisclosure } from '@mantine/hooks'
 
 import styles from './style.module.css'
 
@@ -9,6 +10,7 @@ import { BaseText } from '~/components/Typography/BaseText'
 import { IconButton } from '~/components/Buttons/IconButton'
 import { FlexBox } from '~/components/Base/FlexBox'
 import { GridLayout } from '~/components/Base/GridLayout'
+import { FrameModal } from '~/components/Modals/FrameModal'
 
 type Props = {
   progress: Progress
@@ -16,14 +18,9 @@ type Props = {
 }
 
 export const ProgressCard = ({ progress, onClick }: Props): React.ReactNode => {
+  const [isOpen, handlers] = useDisclosure()
   return (
-    <div
-      className={styles.card}
-      role="button"
-      tabIndex={0}
-      onClick={onClick}
-      onKeyDown={onClick}
-    >
+    <div className={styles.card}>
       <FlexBox justify="flex-start" align="stretch" gap={8} pt={8}>
         <BaseText>{progress.note}</BaseText>
       </FlexBox>
@@ -35,6 +32,7 @@ export const ProgressCard = ({ progress, onClick }: Props): React.ReactNode => {
             height={100}
             alt=""
             className={styles.image}
+            onClick={handlers.open}
           />
         </FlexBox>
       )}
@@ -47,9 +45,20 @@ export const ProgressCard = ({ progress, onClick }: Props): React.ReactNode => {
         </FlexBox>
         <IconButton
           icon={<RiEditCircleLine size={20} />}
+          onClick={onClick}
           importance="tertiary"
         />
       </GridLayout>
+
+      <FrameModal isOpen={isOpen} onClose={handlers.close}>
+        <Image
+          src={progress.imagePaths[0]}
+          width={500}
+          height={500}
+          alt=""
+          className={styles.expandedImage}
+        />
+      </FrameModal>
     </div>
   )
 }

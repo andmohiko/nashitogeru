@@ -11,13 +11,16 @@
   justify-content: flex-start;
   align-items: flex-start;
 
-  &:hover {
-    background-color: var(--color-gray100);
-  }
-
   .image {
-    height: 150px;
+    height: 200px;
     width: 100%;
     object-fit: cover;
+    cursor: pointer;
   }
+}
+
+.expandedImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
