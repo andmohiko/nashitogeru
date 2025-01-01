@@ -51,7 +51,7 @@ service cloud.firestore {
       allow read: if isSignedIn();
       allow create: if isValidGoalSchema(requestData());
       allow update: if isValidGoalSchema(requestData());
-      allow delete: if isSignedIn() && isUser(requestData().userId);
+      allow delete: if isSignedIn();
 
       match /progresses/{progressId} {
         allow read: if isSignedIn();
