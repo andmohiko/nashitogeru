@@ -1,5 +1,6 @@
 import { useDisclosure } from '@mantine/hooks'
-import type { GoalId } from '@nashitogeru/common'
+import type { GoalId, Progress } from '@nashitogeru/common'
+import { useMemo, useState } from 'react'
 
 import styles from './style.module.css'
 
@@ -22,6 +23,19 @@ export const ProgressContainer = ({ goalId }: Props): React.ReactNode => {
   const { isLoading: isLoadingGoals, findGoalById } = useGoalContext()
   const goal = findGoalById(goalId)
   const [progresses, isLoadingProgresses] = useProgresses(goalId)
+  const [selectedProgress, setSelectedProgress] = useState<
+    Progress | undefined
+  >(undefined)
+
+  const onSelectProgress = (progress: Progress) => {
+    setSelectedProgress(progress)
+    handlers.open()
+  }
+  const currentProgressRate = useMemo(() => {
+    const latestProgress = progresses[0]
+    return latestProgress?.progressRate ?? 0
+  }, [progresses])
+
   return (
     <DefaultLayout>
       {isLoadingGoals || isLoadingProgresses || !goal ? (
@@ -32,7 +46,10 @@ export const ProgressContainer = ({ goalId }: Props): React.ReactNode => {
         <FlexBox height="initial" gap={24}>
           <div className={styles.container}>
             <GoalHeader goal={goal} />
-            <ProgressesList goal={goal} progresses={progresses} />
+            <ProgressesList
+              progresses={progresses}
+              onSelectProgress={onSelectProgress}
+            />
           </div>
         </FlexBox>
       )}
@@ -47,6 +64,8 @@ export const ProgressContainer = ({ goalId }: Props): React.ReactNode => {
             isOpen={isOpen}
             onClose={handlers.close}
             goal={goal}
+            progress={selectedProgress}
+            currentProgressRate={currentProgressRate}
           />
         </>
       )}

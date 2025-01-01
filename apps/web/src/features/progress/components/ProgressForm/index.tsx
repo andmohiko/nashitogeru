@@ -23,12 +23,14 @@ type Props = {
   goal: Goal
   defaultValue?: Progress
   onClose: () => void
+  currentProgressRate: number
 }
 
 export const ProgressForm = ({
   goal,
   defaultValue,
   onClose,
+  currentProgressRate,
 }: Props): React.ReactNode => {
   const { uid } = useFirebaseAuthContext()
   const { startLoading, stopLoading } = useLoadingContext()
@@ -46,7 +48,7 @@ export const ProgressForm = ({
       date: defaultValue?.date || new Date(),
       imagePath: defaultValue?.imagePaths[0] ?? undefined,
       note: defaultValue?.note || '',
-      progressRate: defaultValue?.progressRate || 0,
+      progressRate: defaultValue?.progressRate || currentProgressRate,
     },
   })
 

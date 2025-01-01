@@ -8,6 +8,7 @@ type Props = {
   onClose: () => void
   goal: Goal
   progress?: Progress
+  currentProgressRate: number
 }
 
 export const EditProgressModal = ({
@@ -15,14 +16,20 @@ export const EditProgressModal = ({
   onClose,
   goal,
   progress,
+  currentProgressRate,
 }: Props): React.ReactNode => {
   return (
     <BaseBottomSheet
-      title={goal ? '成し遂げ度合いを編集' : '成し遂げ度合いを追加'}
+      title={progress ? '成し遂げ度合いを編集' : '成し遂げ度合いを追加'}
       isOpen={isOpen}
       onClose={onClose}
     >
-      <ProgressForm goal={goal} onClose={onClose} defaultValue={progress} />
+      <ProgressForm
+        goal={goal}
+        onClose={onClose}
+        defaultValue={progress}
+        currentProgressRate={currentProgressRate}
+      />
     </BaseBottomSheet>
   )
 }

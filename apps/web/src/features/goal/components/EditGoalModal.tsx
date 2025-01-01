@@ -7,6 +7,7 @@ type Props = {
   isOpen: boolean
   onClose: () => void
   goal?: Goal
+  previousGoal?: Goal
 }
 
 export const EditGoalModal = ({
