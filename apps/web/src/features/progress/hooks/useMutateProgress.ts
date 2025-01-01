@@ -31,7 +31,7 @@ export const useMutateProgress = (): {
     await createProgressOperation(goalId, {
       createdAt: serverTimestamp,
       date: data.date,
-      imagePaths: [data.imagePath],
+      imagePaths: data.imagePath ? [data.imagePath] : [],
       note: data.note ?? '',
       progressRate: data.progressRate,
       updatedAt: serverTimestamp,
@@ -49,7 +49,7 @@ export const useMutateProgress = (): {
 
     await updateProgressOperation(goalId, progressId, {
       date: data.date,
-      imagePaths: [data.imagePath],
+      imagePaths: data.imagePath ? [data.imagePath] : [],
       note: data.note ?? '',
       progressRate: data.progressRate,
       updatedAt: serverTimestamp,
