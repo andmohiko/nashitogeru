@@ -11,6 +11,7 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   onSnapshot,
   orderBy,
   query,
@@ -25,6 +26,26 @@ export const dateColumns = [
   'createdAt',
   'updatedAt',
 ] as const satisfies Array<string>
+
+export const fetchGoalByIdOperation = async (
+  goalId: Goal['goalId'],
+): Promise<Goal | null> => {
+  const docSnap = await getDoc(doc(db, goalsCollection, goalId))
+  if (!docSnap.exists()) {
+    return null
+  }
+
+  const data = docSnap.data()
+
+  if (!data) {
+    return null
+  }
+
+  return {
+    goalId: docSnap.id,
+    ...convertDate(data, dateColumns),
+  } as Goal
+}
 
 export const subscribeGoalsByUserIdOperation = (
   userId: User['userId'],

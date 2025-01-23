@@ -7,17 +7,17 @@ import { useGoals } from '~/hooks/useGoals'
 const GoalContext = createContext<{
   goals: Array<Goal>
   isLoading: boolean
-  findGoalById: (goalId: GoalId) => Goal | undefined
+  findMyGoalById: (goalId: GoalId) => Goal | undefined
 }>({
   goals: [],
   isLoading: false,
-  findGoalById: () => undefined,
+  findMyGoalById: () => undefined,
 })
 
 const GoalProvider = ({ children }: { children: ReactNode }): ReactNode => {
   const [goals, isLoading] = useGoals()
 
-  const findGoalById = useCallback(
+  const findMyGoalById = useCallback(
     (goalId: GoalId) => {
       return goals.find((goal) => goal.goalId === goalId)
     },
@@ -25,7 +25,7 @@ const GoalProvider = ({ children }: { children: ReactNode }): ReactNode => {
   )
 
   return (
-    <GoalContext.Provider value={{ goals, isLoading, findGoalById }}>
+    <GoalContext.Provider value={{ goals, isLoading, findMyGoalById }}>
       {children}
     </GoalContext.Provider>
   )
