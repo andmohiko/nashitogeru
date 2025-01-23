@@ -2,16 +2,16 @@ import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 
 import { LoadingContentOverlay } from '~/components/Base/Loading'
-import { ProgressContainer } from '~/features/progress/components/ProgressContainer'
+import { GoalContainer } from '~/features/progress/components/GoalContainer'
 
-const IndexPage: NextPage = () => {
+const ProgressPage: NextPage = () => {
   const { query } = useRouter()
   const goalId = query.id
   return typeof goalId === 'string' ? (
-    <ProgressContainer goalId={goalId} />
+    <GoalContainer goalId={goalId} />
   ) : (
     <LoadingContentOverlay />
   )
 }
 
-export default IndexPage
+export default ProgressPage
