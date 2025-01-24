@@ -40,6 +40,7 @@ export const GoalsList = ({ goals }: Props): React.ReactNode => {
             <BasicButton
               onClick={onAddGoal}
               leftSection={<IoMdAddCircleOutline size={18} />}
+              width="220px"
             >
               成し遂げを追加
             </BasicButton>
