@@ -11,10 +11,15 @@ import { FlexBox } from '~/components/Base/FlexBox'
 
 type Props = {
   goal: Goal
+  isSecret: boolean
   onClick?: () => void
 }
 
-export const GoalCard = ({ goal, onClick }: Props): React.ReactNode => {
+export const GoalCard = ({
+  goal,
+  isSecret,
+  onClick,
+}: Props): React.ReactNode => {
   const today = new Date()
   // 毎年12/28~1/3の間は編集可能。もしくはcreatedAtが3日以内の場合も編集可能
   const canEdit = canEditGoal(goal, today)
@@ -27,9 +32,15 @@ export const GoalCard = ({ goal, onClick }: Props): React.ReactNode => {
       onKeyDown={canEdit ? onClick : undefined}
     >
       <div className={styles.title}>
-        <BaseText size="lg" weight="bold">
-          {goal.target}
-        </BaseText>
+        {isSecret ? (
+          <BaseText size="lg" weight="bold">
+            非公開
+          </BaseText>
+        ) : (
+          <BaseText size="lg" weight="bold">
+            {goal.target}
+          </BaseText>
+        )}
         <IconButton
           icon={canEdit ? <RiEditCircleLine size={20} /> : <CiLock size={20} />}
           importance="tertiary"
