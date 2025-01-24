@@ -14,6 +14,8 @@ app.use(cors)
 app.use(router)
 
 // triggers
+exports.onCreateProgress = require('./triggers/onCreateProgress')
+exports.onUpdateProgress = require('./triggers/onUpdateProgress')
 
 // API
 exports.api = functions
