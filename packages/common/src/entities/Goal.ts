@@ -12,6 +12,7 @@ export type Goal = {
   createdAt: Date
   description: string
   isPublished: boolean
+  progressRate?: number
   target: string
   updatedAt: Date
   userId: UserId

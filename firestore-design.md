@@ -27,6 +27,7 @@
 - createdAt: Timestamp 作成日時
 - description: String 詳細
 - isPublished: Boolean 公開フラグ
+- progressRate: Number? 進捗率
 - target: String 目標
 - updatedAt: Timestamp 更新日時
 - userId: String ユーザー ID
