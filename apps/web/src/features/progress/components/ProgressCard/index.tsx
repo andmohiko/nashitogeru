@@ -28,8 +28,8 @@ export const ProgressCard = ({ progress, onClick }: Props): React.ReactNode => {
         <FlexBox justify="flex-start" align="stretch" gap={8} pt={8}>
           <Image
             src={progress.imagePaths[0]}
-            width={100}
-            height={100}
+            width={633}
+            height={200}
             alt=""
             className={styles.image}
             onClick={handlers.open}
