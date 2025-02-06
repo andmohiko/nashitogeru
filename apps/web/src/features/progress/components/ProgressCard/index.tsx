@@ -1,7 +1,6 @@
 import { RiEditCircleLine } from 'react-icons/ri'
 import type { Progress } from '@nashitogeru/common'
-import { Progress as ProgressBar } from '@mantine/core'
-import Image from 'next/image'
+import { Progress as ProgressBar, Image } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 
 import styles from './style.module.css'
@@ -28,8 +27,6 @@ export const ProgressCard = ({ progress, onClick }: Props): React.ReactNode => {
         <FlexBox justify="flex-start" align="stretch" gap={8} pt={8}>
           <Image
             src={progress.imagePaths[0]}
-            width={633}
-            height={200}
             alt=""
             className={styles.image}
             onClick={handlers.open}
