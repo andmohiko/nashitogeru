@@ -36,9 +36,13 @@ export const fetchUserByIdOperation = async (
   userId: Uid,
 ): Promise<User | null> => {
   const snapshot = await getDoc(doc(db, usersCollection, userId))
+  const data = snapshot.data()
+  if (!data) {
+    return null
+  }
   return {
     userId: snapshot.id,
-    ...convertDate(snapshot.data(), dateColumns),
+    ...convertDate(data, dateColumns),
   } as User
 }
 
