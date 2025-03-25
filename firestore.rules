@@ -47,7 +47,7 @@ service cloud.firestore {
     }
 
     match /goals/{goalId} {
-      allow read;
+      allow read: if (isSignedIn() && isUser(resource.data.userId)) || resource.data.isPublished == true;
       allow create: if isValidGoalSchema(requestData());
       allow update: if isValidGoalSchema(requestData());
       allow delete: if isSignedIn();
