@@ -8,7 +8,7 @@ import { FlexBox } from '~/components/Base/FlexBox'
 
 type Props = {
   progresses: Array<Progress>
-  onSelectProgress: (progress: Progress) => void
+  onSelectProgress?: (progress: Progress) => void
 }
 
 export const ProgressesList = ({
@@ -27,7 +27,9 @@ export const ProgressesList = ({
           >
             <ProgressCard
               progress={progress}
-              onClick={() => onSelectProgress(progress)}
+              onClick={
+                onSelectProgress ? () => onSelectProgress(progress) : undefined
+              }
             />
           </Timeline.Item>
         ))}

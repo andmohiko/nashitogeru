@@ -20,7 +20,12 @@ import {
 import { auth, serverTimestamp } from '~/lib/firebase'
 import { errorMessage } from '~/utils/errorMessage'
 
-const nonAuthPaths = ['/login']
+const nonAuthPaths = ['/login', '/goals']
+
+// paths that starts with nonAuthPaths
+const isNonAuthPath = (path: string) => {
+  return nonAuthPaths.some((p) => path.startsWith(p))
+}
 
 const FirebaseAuthContext = createContext<{
   currentUser: User | null | undefined
@@ -48,7 +53,7 @@ const FirebaseAuthProvider = ({
   const { pathname, push } = useRouter()
   const { showErrorToast } = useToast()
 
-  const isAuthPath = useMemo(() => !nonAuthPaths.includes(pathname), [pathname])
+  const isAuthPath = useMemo(() => !isNonAuthPath(pathname), [pathname])
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -64,13 +69,18 @@ const FirebaseAuthProvider = ({
         return
       }
 
-      if (!user) {
+      if (isAuthPath && !user) {
         push('/login')
         return
       }
 
-      setCurrentUser(user)
-      setUid(user.uid)
+      if (user) {
+        setCurrentUser(user)
+        setUid(user.uid)
+      } else {
+        setCurrentUser(null)
+        setUid(null)
+      }
     })
     return () => unsubscribe()
   }, [isAuthPath, pathname, push])

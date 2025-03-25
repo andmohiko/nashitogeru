@@ -48,13 +48,13 @@ service cloud.firestore {
     }
 
     match /goals/{goalId} {
-      allow read: if isSignedIn();
+      allow read;
       allow create: if isValidGoalSchema(requestData());
       allow update: if isValidGoalSchema(requestData());
       allow delete: if isSignedIn();
 
       match /progresses/{progressId} {
-        allow read: if isSignedIn();
+        allow read;
         allow create: if isValidProgressSchema(requestData());
         allow update: if isValidProgressSchema(requestData());
         allow delete: if isSignedIn();

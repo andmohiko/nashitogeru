@@ -40,11 +40,13 @@ export const ProgressCard = ({ progress, onClick }: Props): React.ReactNode => {
             {progress.progressRate}%
           </BaseText>
         </FlexBox>
-        <IconButton
-          icon={<RiEditCircleLine size={20} />}
-          onClick={onClick}
-          importance="tertiary"
-        />
+        {onClick && (
+          <IconButton
+            icon={<RiEditCircleLine size={20} />}
+            onClick={onClick}
+            importance="tertiary"
+          />
+        )}
       </GridLayout>
 
       <FrameModal isOpen={isOpen} onClose={handlers.close}>

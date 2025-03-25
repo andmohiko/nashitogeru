@@ -6,11 +6,16 @@ import { fetchGoalByIdOperation } from '~/infrastructures/firestore/GoalOperatio
 export const useGoal = (goalId: GoalId): [Goal | null | undefined, boolean] => {
   const [goal, setGoal] = useState<Goal | null | undefined>(undefined)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+
   useEffect(() => {
     const func = async () => {
       setIsLoading(true)
       const goal = await fetchGoalByIdOperation(goalId)
-      setGoal(goal)
+      if (goal?.isPublished) {
+        setGoal(goal)
+      } else {
+        setGoal(null)
+      }
       setIsLoading(false)
     }
     func()
