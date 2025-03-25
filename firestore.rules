@@ -18,8 +18,7 @@ service cloud.firestore {
     }
 
     function isValidGoalSchema(requestData) {
-      return requestData.size() == 6
-        && 'createdAt' in requestData && requestData.createdAt is timestamp
+      return 'createdAt' in requestData && requestData.createdAt is timestamp
         && 'description' in requestData && requestData.description is string
         && 'isPublished' in requestData && requestData.isPublished is bool
         && 'target' in requestData && requestData.target is string

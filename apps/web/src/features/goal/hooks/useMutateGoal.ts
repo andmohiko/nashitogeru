@@ -25,6 +25,7 @@ export const useMutateGoal = (): {
       createdAt: serverTimestamp,
       description: data.description ?? '',
       isPublished: false,
+      progressRate: 0,
       target: data.target,
       updatedAt: serverTimestamp,
       userId: uid,
