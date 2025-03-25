@@ -16,7 +16,7 @@ type Props = {
 
 export const NavMenu = ({ goals, onClose }: Props): React.ReactElement => {
   const { pathname, query } = useRouter()
-  const { isAuthPath } = useFirebaseAuthContext()
+  const { currentUser } = useFirebaseAuthContext()
 
   const menuItems: Array<MenuItemProps> = goals.map((goal) => ({
     href: `/goals/${goal.goalId}`,
@@ -33,7 +33,7 @@ export const NavMenu = ({ goals, onClose }: Props): React.ReactElement => {
   return (
     <AppShell.Navbar p="sm" className={styles.navBar}>
       <div className={styles.menuItems}>
-        {isAuthPath ? (
+        {currentUser ? (
           menuItems.map((item) => (
             <MenuItem key={item.href} {...item} onClick={onClose} />
           ))

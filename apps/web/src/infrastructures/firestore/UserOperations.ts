@@ -32,6 +32,16 @@ export const subscribeUserByIdOperation = (
   return unsubscribe
 }
 
+export const fetchUserByIdOperation = async (
+  userId: Uid,
+): Promise<User | null> => {
+  const snapshot = await getDoc(doc(db, usersCollection, userId))
+  return {
+    userId: snapshot.id,
+    ...convertDate(snapshot.data(), dateColumns),
+  } as User
+}
+
 export const createUserOperation = async (
   uid: Uid,
   dto: CreateUserDto,
